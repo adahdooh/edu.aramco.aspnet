@@ -2,13 +2,15 @@ using edu.aramco.aspnet.api.Models.Requests;
 using edu.aramco.aspnet.domainEntities.Context;
 using edu.aramco.aspnet.domainEntities.Entities;
 using edu.aramco.aspnet.services.IServices;
+using edu.aramco.aspnet.services.Services;
+using edu.aramco.aspnet.services.Services.SMSServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace edu.aramco.aspnet.api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UsersController(ApplicationDbContext applicationDbContext, ISMSService smsService) : ControllerBase
+    public class UsersController(ApplicationDbContext applicationDbContext, IServiceProvider serviceProvider) : ControllerBase
     {
         /// <summary>
         /// Get the list of users
@@ -21,9 +23,35 @@ namespace edu.aramco.aspnet.api.Controllers
         }
 
         [HttpPost("auth", Name = "Authenticate User request")]
-        public async Task<ActionResult> Auth(string phoneNumber, CancellationToken cancellationToken = default)
+        public async Task<ActionResult> Auth(string phoneNumber, string serviceProviderKey,  CancellationToken cancellationToken = default)
         {
+            // First way
+            //var smsService = smsServices.Single(s => s.GetType().Name.StartsWith(serviceProvider, StringComparison.OrdinalIgnoreCase));
+
+            // second way -- strategy pattern 
+            //ISMSService? smsService;
+            //if (serviceProvider == "Mobily")
+            //{
+            //    smsService = smsServices.Single(s => s.GetType() == typeof(MobilySMSService));
+            //}
+            //else if (serviceProvider == "STC")
+            //{
+            //    smsService = smsServices.Single(s => s.GetType() == typeof(STCSMSService));
+            //}
+            //else if (serviceProvider == "Zain")
+            //{
+            //    smsService = smsServices.Single(s => s.GetType() == typeof(ZainSMSService));
+            //}
+            //else
+            //{
+            //    throw new Exception("Invalid service provider");
+            //}
+
+            // the keyed style
+            var smsService = serviceProvider.GetRequiredKeyedService<ISMSService>(serviceProviderKey);
+
             await smsService.Send(phoneNumber, "Your authentication code is 123456", cancellationToken);
+
             // another access to the database 
             // a third access to the database
             // a fourth access to the database

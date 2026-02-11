@@ -8,7 +8,6 @@ namespace edu.aramco.aspnet.domainEntities.Entities
     {
         public int Id { get; set; }
         public string PhoneNumber { get; set; }
-        public string PhoneNumber1 { get; set; }
         public string Body { get; set; }
     }
 }
