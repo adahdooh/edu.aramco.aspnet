@@ -1,5 +1,6 @@
 using edu.aramco.aspnet.domainEntities.Context;
 using edu.aramco.aspnet.services.IServices;
+using edu.aramco.aspnet.services.Services;
 using edu.aramco.aspnet.services.Services.SMSServices;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,15 @@ var connectionString =
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddScoped<ISMSService, MobilySMSService>();
+// for both 1 and 2 ways of accessing the services, we need to register all the implementations of ISMSService
+//builder.Services.AddScoped<ISMSService, MobilySMSService>();
+//builder.Services.AddScoped<ISMSService, STCSMSService>();
+//builder.Services.AddScoped<ISMSService, ZainSMSService>();
+
+// using keyed access to the services
+builder.Services.AddKeyedScoped<ISMSService, MobilySMSService>("Mobily");
+builder.Services.AddKeyedScoped<ISMSService, STCSMSService>("STC");
+builder.Services.AddKeyedScoped<ISMSService, ZainSMSService>("Zain");
 
 var app = builder.Build();
 
