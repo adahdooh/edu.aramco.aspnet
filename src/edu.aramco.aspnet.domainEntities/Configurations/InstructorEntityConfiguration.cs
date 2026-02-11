@@ -9,5 +9,8 @@ public static class InstructorEntityConfiguration
         where T : Instructor
     {
         modelBuilder.Entity<T>().Property(s => s.EmailAddress).IsRequired(true).HasMaxLength(50);
+
+        modelBuilder.Entity<T>()
+            .HasMany(s => s.Courses);
     }
 }
