@@ -16,6 +16,6 @@ public class CreateUserRequestModel
 
     [Required]
     [StringLength(1)]
-    [RegularExpression("^(M|F|f|m)$", ErrorMessage ="Test")]
+    [RegularExpression("^(M|F|f|m)$", ErrorMessage = "Test")]
     public string Gender { get; set; }
 }

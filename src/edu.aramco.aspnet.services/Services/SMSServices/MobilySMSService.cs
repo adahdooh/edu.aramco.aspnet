@@ -10,12 +10,9 @@ public class MobilySMSService(ApplicationDbContext applicationDbContext) : ISMSS
 
     public async Task Send(string telephoneNumber, string body, CancellationToken cancellationToken)
     {
-        await applicationDbContext.SMSs.AddAsync(new SMS
-        {
-            Body = body,
-            PhoneNumber = telephoneNumber
-        }, cancellationToken);
-
-
+        await applicationDbContext.SMSs.AddAsync(
+            new SMS { Body = body, PhoneNumber = telephoneNumber },
+            cancellationToken
+        );
     }
 }

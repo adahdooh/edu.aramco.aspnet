@@ -10,13 +10,9 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Nationality",
-                table: "Students");
+            migrationBuilder.DropColumn(name: "Nationality", table: "Students");
 
-            migrationBuilder.DropColumn(
-                name: "Nationality",
-                table: "Instructors");
+            migrationBuilder.DropColumn(name: "Nationality", table: "Instructors");
         }
 
         /// <inheritdoc />
@@ -27,14 +23,16 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 table: "Students",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "Nationality",
                 table: "Instructors",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
         }
     }
 }
