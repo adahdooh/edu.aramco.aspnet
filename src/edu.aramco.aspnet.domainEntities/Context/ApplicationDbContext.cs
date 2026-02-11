@@ -12,6 +12,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Student> Students { get; set; }
     public DbSet<Instructor> Instructors { get; set; }
+    public DbSet<SMS> SMSs { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -20,6 +22,7 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.ApplyStudentConfiguration<Student>();
         modelBuilder.ApplyInstructorConfiguration<Instructor>();
+        modelBuilder.ApplySMSConfiguration<SMS>();
 
         base.OnModelCreating(modelBuilder);
     }

@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\edu.aramco.aspnet.domainEntities\edu.aramco.aspnet.domainEntities.csproj" />
+    <ProjectReference Include="..\edu.aramco.aspnet.services\edu.aramco.aspnet.services.csproj" />
   </ItemGroup>
 
 </Project>
