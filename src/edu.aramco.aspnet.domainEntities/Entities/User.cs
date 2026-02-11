@@ -15,8 +15,9 @@ public abstract class User
 
     [MaxLength(200)]
     public required string Address { get; set; }
+
     //public required string Nationality { get; set; }
-    public DateTime DOB{ get; set; }
+    public DateTime DOB { get; set; }
     public string? Telephone { get; set; }
     public required string Password { get; set; }
 

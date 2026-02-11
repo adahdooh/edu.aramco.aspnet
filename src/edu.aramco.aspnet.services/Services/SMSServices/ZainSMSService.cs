@@ -1,9 +1,9 @@
-﻿using edu.aramco.aspnet.domainEntities.Context;
-using edu.aramco.aspnet.domainEntities.Entities;
-using edu.aramco.aspnet.services.IServices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using edu.aramco.aspnet.domainEntities.Context;
+using edu.aramco.aspnet.domainEntities.Entities;
+using edu.aramco.aspnet.services.IServices;
 
 namespace edu.aramco.aspnet.services.Services
 {
@@ -13,18 +13,22 @@ namespace edu.aramco.aspnet.services.Services
 
         // Old style of injecting the service
         private readonly ApplicationDbContext applicationDbContext;
+
         public ZainSMSService(ApplicationDbContext applicationDbContext)
         {
             this.applicationDbContext = applicationDbContext;
         }
 
-        public async Task Send(string telephoneNumber, string body, CancellationToken cancellationToken)
+        public async Task Send(
+            string telephoneNumber,
+            string body,
+            CancellationToken cancellationToken
+        )
         {
-            await applicationDbContext.SMSs.AddAsync(new SMS
-            {
-                Body = body,
-                PhoneNumber = telephoneNumber
-            }, cancellationToken);
+            await applicationDbContext.SMSs.AddAsync(
+                new SMS { Body = body, PhoneNumber = telephoneNumber },
+                cancellationToken
+            );
         }
     }
 }

@@ -29,7 +29,11 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedByUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedByUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    Discriminator = table.Column<string>(
+                        type: "nvarchar(13)",
+                        maxLength: 13,
+                        nullable: false
+                    ),
                     ResignationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     HireDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Department = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -39,19 +43,19 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                     Major = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Level = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicationStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Justification = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Justification = table.Column<string>(type: "nvarchar(max)", nullable: true),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                });
+                }
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Users");
+            migrationBuilder.DropTable(name: "Users");
         }
     }
 }

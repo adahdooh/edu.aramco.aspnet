@@ -14,11 +14,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<Instructor> Instructors { get; set; }
     public DbSet<SMS> SMSs { get; set; }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>()
-            .UseTpcMappingStrategy();
+        modelBuilder.Entity<User>().UseTpcMappingStrategy();
 
         modelBuilder.ApplyStudentConfiguration<Student>();
         modelBuilder.ApplyInstructorConfiguration<Instructor>();

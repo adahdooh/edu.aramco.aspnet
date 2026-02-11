@@ -9,17 +9,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? throw new InvalidOperationException("Connection string"
-        + "'DefaultConnection' not found.");
+    ?? throw new InvalidOperationException("Connection string" + "'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString)
+);
 
 // for both 1 and 2 ways of accessing the services, we need to register all the implementations of ISMSService
 //builder.Services.AddScoped<ISMSService, MobilySMSService>();
@@ -30,6 +31,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //builder.Services.AddKeyedScoped<ISMSService, MobilySMSService>("Mobily");
 //builder.Services.AddKeyedScoped<ISMSService, STCSMSService>("STC");
 //builder.Services.AddKeyedScoped<ISMSService, ZainSMSService>("Zain");
+
+builder.Services.AddTransient<ISMSService, ZainSMSService>();
 
 var app = builder.Build();
 

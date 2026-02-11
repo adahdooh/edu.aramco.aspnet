@@ -17,7 +17,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldMaxLength: 50
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "EmailAddress",
@@ -28,7 +29,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 defaultValue: "",
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "Address",
@@ -38,7 +40,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldMaxLength: 50
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "LastName",
@@ -47,7 +50,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldMaxLength: 50
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "EmailAddress",
@@ -58,7 +62,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 defaultValue: "",
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "Address",
@@ -68,28 +73,38 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldMaxLength: 50
+            );
 
             migrationBuilder.CreateTable(
                 name: "SMSs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table
+                        .Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    Body = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: false)
+                    PhoneNumber = table.Column<string>(
+                        type: "nvarchar(15)",
+                        maxLength: 15,
+                        nullable: false
+                    ),
+                    Body = table.Column<string>(
+                        type: "nvarchar(160)",
+                        maxLength: 160,
+                        nullable: false
+                    ),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SMSs", x => x.Id);
-                });
+                }
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "SMSs");
+            migrationBuilder.DropTable(name: "SMSs");
 
             migrationBuilder.AlterColumn<string>(
                 name: "LastName",
@@ -98,7 +113,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 maxLength: 50,
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(max)"
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "EmailAddress",
@@ -107,7 +123,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldMaxLength: 50
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "Address",
@@ -117,7 +134,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(200)",
-                oldMaxLength: 200);
+                oldMaxLength: 200
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "LastName",
@@ -126,7 +144,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 maxLength: 50,
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(max)"
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "EmailAddress",
@@ -135,7 +154,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldMaxLength: 50
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "Address",
@@ -145,7 +165,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(200)",
-                oldMaxLength: 200);
+                oldMaxLength: 200
+            );
         }
     }
 }

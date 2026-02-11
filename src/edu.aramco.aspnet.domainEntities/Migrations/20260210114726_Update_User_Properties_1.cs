@@ -17,7 +17,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 maxLength: 50,
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(max)"
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "Address",
@@ -26,7 +27,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 maxLength: 50,
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(max)"
+            );
         }
 
         /// <inheritdoc />
@@ -39,7 +41,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldMaxLength: 50
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "Address",
@@ -48,7 +51,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldMaxLength: 50
+            );
         }
     }
 }

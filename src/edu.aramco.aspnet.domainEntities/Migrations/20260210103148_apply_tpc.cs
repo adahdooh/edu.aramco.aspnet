@@ -11,33 +11,19 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Users",
-                table: "Users");
+            migrationBuilder.DropPrimaryKey(name: "PK_Users", table: "Users");
 
-            migrationBuilder.DropColumn(
-                name: "Department",
-                table: "Users");
+            migrationBuilder.DropColumn(name: "Department", table: "Users");
 
-            migrationBuilder.DropColumn(
-                name: "Discriminator",
-                table: "Users");
+            migrationBuilder.DropColumn(name: "Discriminator", table: "Users");
 
-            migrationBuilder.DropColumn(
-                name: "HireDate",
-                table: "Users");
+            migrationBuilder.DropColumn(name: "HireDate", table: "Users");
 
-            migrationBuilder.DropColumn(
-                name: "Qualifications",
-                table: "Users");
+            migrationBuilder.DropColumn(name: "Qualifications", table: "Users");
 
-            migrationBuilder.DropColumn(
-                name: "ResignationDate",
-                table: "Users");
+            migrationBuilder.DropColumn(name: "ResignationDate", table: "Users");
 
-            migrationBuilder.RenameTable(
-                name: "Users",
-                newName: "Students");
+            migrationBuilder.RenameTable(name: "Users", newName: "Students");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Major",
@@ -47,7 +33,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 defaultValue: "",
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "Level",
@@ -57,7 +44,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 defaultValue: "",
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "GraduationDate",
@@ -67,7 +55,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "EntranceDate",
@@ -77,7 +66,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "ApplicationStatus",
@@ -87,12 +77,10 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 defaultValue: "",
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
-                oldNullable: true);
+                oldNullable: true
+            );
 
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Students",
-                table: "Students",
-                column: "Id");
+            migrationBuilder.AddPrimaryKey(name: "PK_Students", table: "Students", column: "Id");
 
             migrationBuilder.CreateTable(
                 name: "Instructors",
@@ -115,27 +103,23 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                     ResignationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Department = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Qualifications = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Qualifications = table.Column<string>(type: "nvarchar(max)", nullable: false),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Instructors", x => x.Id);
-                });
+                }
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Instructors");
+            migrationBuilder.DropTable(name: "Instructors");
 
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Students",
-                table: "Students");
+            migrationBuilder.DropPrimaryKey(name: "PK_Students", table: "Students");
 
-            migrationBuilder.RenameTable(
-                name: "Students",
-                newName: "Users");
+            migrationBuilder.RenameTable(name: "Students", newName: "Users");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Major",
@@ -143,7 +127,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(max)"
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "Level",
@@ -151,7 +136,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(max)"
+            );
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "GraduationDate",
@@ -159,7 +145,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 type: "datetime2",
                 nullable: true,
                 oldClrType: typeof(DateTime),
-                oldType: "datetime2");
+                oldType: "datetime2"
+            );
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "EntranceDate",
@@ -167,7 +154,8 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 type: "datetime2",
                 nullable: true,
                 oldClrType: typeof(DateTime),
-                oldType: "datetime2");
+                oldType: "datetime2"
+            );
 
             migrationBuilder.AlterColumn<string>(
                 name: "ApplicationStatus",
@@ -175,13 +163,15 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "nvarchar(max)"
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "Department",
                 table: "Users",
                 type: "nvarchar(max)",
-                nullable: true);
+                nullable: true
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "Discriminator",
@@ -189,30 +179,31 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                 type: "nvarchar(13)",
                 maxLength: 13,
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""
+            );
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "HireDate",
                 table: "Users",
                 type: "datetime2",
-                nullable: true);
+                nullable: true
+            );
 
             migrationBuilder.AddColumn<string>(
                 name: "Qualifications",
                 table: "Users",
                 type: "nvarchar(max)",
-                nullable: true);
+                nullable: true
+            );
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "ResignationDate",
                 table: "Users",
                 type: "datetime2",
-                nullable: true);
+                nullable: true
+            );
 
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Users",
-                table: "Users",
-                column: "Id");
+            migrationBuilder.AddPrimaryKey(name: "PK_Users", table: "Users", column: "Id");
         }
     }
 }
