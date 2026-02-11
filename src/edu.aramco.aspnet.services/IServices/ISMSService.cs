@@ -6,6 +6,9 @@ namespace edu.aramco.aspnet.services.IServices
 {
     public interface ISMSService
     {
+        public string Key { get; }
+
+
         /// <summary>
         /// Service to send SMS.
         /// </summary>

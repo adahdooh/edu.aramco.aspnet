@@ -16,6 +16,8 @@ namespace edu.aramco.aspnet.services.Services
             this.applicationDbContext = applicationDbContext;
         }
 
+        public string Key => "STC";
+
         public async Task Send(string telephoneNumber, string body, CancellationToken cancellationToken)
         {
             await applicationDbContext.SMSs.AddAsync(new SMS
