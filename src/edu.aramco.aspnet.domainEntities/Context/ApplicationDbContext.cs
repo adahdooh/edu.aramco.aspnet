@@ -13,6 +13,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Student> Students { get; set; }
     public DbSet<Instructor> Instructors { get; set; }
     public DbSet<SMS> SMSs { get; set; }
+    public DbSet<Course> Courses { get; set; }
+    public DbSet<Enrollment> Enrollments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -21,6 +23,8 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyStudentConfiguration<Student>();
         modelBuilder.ApplyInstructorConfiguration<Instructor>();
         modelBuilder.ApplySMSConfiguration<SMS>();
+        modelBuilder.ApplyCourseConfiguration<Course>();
+        modelBuilder.ApplyEnrollmentConfiguration<Enrollment>();
 
         base.OnModelCreating(modelBuilder);
     }

@@ -6,4 +6,7 @@ public class Instructor : User
     public DateTime HireDate { get; set; }
     public string Department { get; set; }
     public string Qualifications { get; set; }
+
+    // Relations
+    public ICollection<Course> Courses { get; set; } = [];
 }
