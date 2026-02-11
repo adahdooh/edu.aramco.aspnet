@@ -1,4 +1,6 @@
 using edu.aramco.aspnet.domainEntities.Context;
+using edu.aramco.aspnet.services.IServices;
+using edu.aramco.aspnet.services.Services.SMSServices;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,8 @@ var connectionString =
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<ISMSService, MobilySMSService>();
 
 var app = builder.Build();
 
