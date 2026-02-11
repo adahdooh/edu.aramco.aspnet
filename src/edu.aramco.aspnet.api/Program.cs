@@ -27,9 +27,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //builder.Services.AddScoped<ISMSService, ZainSMSService>();
 
 // using keyed access to the services
-builder.Services.AddKeyedScoped<ISMSService, MobilySMSService>("Mobily");
-builder.Services.AddKeyedScoped<ISMSService, STCSMSService>("STC");
-builder.Services.AddKeyedScoped<ISMSService, ZainSMSService>("Zain");
+//builder.Services.AddKeyedScoped<ISMSService, MobilySMSService>("Mobily");
+//builder.Services.AddKeyedScoped<ISMSService, STCSMSService>("STC");
+//builder.Services.AddKeyedScoped<ISMSService, ZainSMSService>("Zain");
 
 var app = builder.Build();
 

@@ -9,6 +9,8 @@ namespace edu.aramco.aspnet.services.Services
 {
     public class ZainSMSService : ISMSService
     {
+        public string Key => "Zain";
+
         // Old style of injecting the service
         private readonly ApplicationDbContext applicationDbContext;
         public ZainSMSService(ApplicationDbContext applicationDbContext)

@@ -10,7 +10,7 @@ namespace edu.aramco.aspnet.api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UsersController(ApplicationDbContext applicationDbContext, IServiceProvider serviceProvider) : ControllerBase
+    public class UsersController(ApplicationDbContext applicationDbContext, IServiceProvider serviceProvider, IEnumerable<ISMSService> all) : ControllerBase
     {
         /// <summary>
         /// Get the list of users
@@ -46,6 +46,9 @@ namespace edu.aramco.aspnet.api.Controllers
             //{
             //    throw new Exception("Invalid service provider");
             //}
+
+            // third way 
+            var targetService = all.First(x => x.Key == serviceProviderKey);
 
             // the keyed style
             var smsService = serviceProvider.GetRequiredKeyedService<ISMSService>(serviceProviderKey);
