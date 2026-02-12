@@ -3,21 +3,21 @@ using edu.aramco.aspnet.api.Validators;
 using edu.aramco.aspnet.domainEntities.Context;
 using edu.aramco.aspnet.services.IServices;
 using edu.aramco.aspnet.services.Services;
-using edu.aramco.aspnet.services.Services.SMSServices;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -40,8 +40,66 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //builder.Services.AddKeyedScoped<ISMSService, ZainSMSService>("Zain");
 
 builder.Services.AddTransient<ISMSService, ZainSMSService>();
-
 builder.Services.AddScoped<IValidator<CourseRequestModel>, CourseRequestModelValidator>();
+
+var jwtSection = builder.Configuration.GetSection("Jwt");
+var issuer = jwtSection["Issuer"];
+var audience = jwtSection["Audience"];
+var key = jwtSection["Key"]!;
+var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+
+builder.Services
+  .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+  .AddJwtBearer(options =>
+  {
+      options.TokenValidationParameters = new TokenValidationParameters
+      {
+          ValidateIssuer = true,
+          ValidIssuer = issuer,
+
+          ValidateAudience = true,
+          ValidAudience = audience,
+
+          ValidateIssuerSigningKey = true,
+          IssuerSigningKey = signingKey,
+
+          ValidateLifetime = true
+      };
+  });
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "ASP.NET",
+        Version = "v1"
+    });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter JWT token ONLY (without 'Bearer ' prefix)"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 var app = builder.Build();
 
@@ -54,6 +112,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
