@@ -4,18 +4,64 @@ using edu.aramco.aspnet.domainEntities.Entities;
 using edu.aramco.aspnet.services.IServices;
 using edu.aramco.aspnet.services.Services;
 using edu.aramco.aspnet.services.Services.SMSServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace edu.aramco.aspnet.api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class UsersController(
         ApplicationDbContext applicationDbContext,
         IServiceProvider serviceProvider,
-        IEnumerable<ISMSService> all
+        IEnumerable<ISMSService> all,
+        IConfiguration configuration
     ) : ControllerBase
     {
+
+        [HttpPost("authenticate")]
+        [AllowAnonymous]
+
+        public async Task<IActionResult> AuthenticateUser(string userName, string password)
+        {
+            if (userName != "aspnet" && password != "123456")
+            {
+                return Unauthorized();
+            }
+
+            var jwt = configuration.GetSection("Jwt");
+            var issuer = jwt["Issuer"]!;
+            var audience = jwt["Audience"]!;
+            var key = jwt["Key"]!;
+            var minutes = int.Parse(jwt["AccessTokenMinutes"] ?? "15");
+
+            var claims = new List<Claim>
+            {
+            };
+
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            var creds = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                claims: claims,
+                notBefore: DateTime.UtcNow,
+                expires: DateTime.UtcNow.AddMinutes(minutes),
+                signingCredentials: creds
+            );
+
+            var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return Ok(tokenValue);
+        }
+
         /// <summary>
         /// Get the list of users
         /// </summary>

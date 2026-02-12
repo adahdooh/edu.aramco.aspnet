@@ -1,6 +1,7 @@
 using edu.aramco.aspnet.api.Models.Requests;
 using edu.aramco.aspnet.domainEntities.Context;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,11 +9,13 @@ namespace edu.aramco.aspnet.api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class CoursesController(
         ApplicationDbContext applicationDbContext,
         IValidator<CourseRequestModel> validator
     ) : ControllerBase
     {
+
         [HttpPost(Name = "Create a new course")]
         public async Task<IActionResult> Add(CourseRequestModel request, CancellationToken cancellationToken)
         {
