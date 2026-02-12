@@ -15,6 +15,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<SMS> SMSs { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<Enrollment> Enrollments { get; set; }
+    public DbSet<Major> Majors { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,6 +26,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplySMSConfiguration<SMS>();
         modelBuilder.ApplyCourseConfiguration<Course>();
         modelBuilder.ApplyEnrollmentConfiguration<Enrollment>();
+        modelBuilder.ApplyMajorConfiguration<Major>();
 
         base.OnModelCreating(modelBuilder);
     }

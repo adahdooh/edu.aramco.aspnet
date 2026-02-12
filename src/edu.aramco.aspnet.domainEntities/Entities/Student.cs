@@ -4,8 +4,11 @@ public class Student : User
 {
     public DateTime GraduationDate { get; set; }
     public DateTime EntranceDate { get; set; }
-    public string Major { get; set; }
+    public int MajorId { get; set; }
+
     public string Level { get; set; }
     public string ApplicationStatus { get; set; }
     public string? Justification { get; set; }
+
+    public Major Major { get; set; }
 }
