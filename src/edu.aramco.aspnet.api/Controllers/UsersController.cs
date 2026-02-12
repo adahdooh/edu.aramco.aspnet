@@ -101,7 +101,6 @@ namespace edu.aramco.aspnet.api.Controllers
                     EmailAddress = "akmal@domain.com",
                     GraduationDate = new DateTime(2024, 1, 1),
                     Justification = "Justification",
-                    Major = "Computer Science",
                     Telephone = "1234567890",
                     UpdatedAt = DateTime.UtcNow,
                 },

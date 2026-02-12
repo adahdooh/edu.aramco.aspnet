@@ -82,6 +82,24 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                     b.ToTable("Enrollments");
                 });
 
+            modelBuilder.Entity("edu.aramco.aspnet.domainEntities.Entities.Major", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Majors");
+                });
+
             modelBuilder.Entity("edu.aramco.aspnet.domainEntities.Entities.SMS", b =>
                 {
                     b.Property<int>("Id")
@@ -205,9 +223,10 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Major")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MajorId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("MajorId");
 
                     b.ToTable("Students");
                 });
@@ -240,6 +259,22 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("edu.aramco.aspnet.domainEntities.Entities.Student", b =>
+                {
+                    b.HasOne("edu.aramco.aspnet.domainEntities.Entities.Major", "Major")
+                        .WithMany("Students")
+                        .HasForeignKey("MajorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Major");
+                });
+
+            modelBuilder.Entity("edu.aramco.aspnet.domainEntities.Entities.Major", b =>
+                {
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("edu.aramco.aspnet.domainEntities.Entities.Instructor", b =>

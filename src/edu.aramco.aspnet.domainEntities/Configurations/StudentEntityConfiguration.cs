@@ -9,5 +9,10 @@ public static class StudentEntityConfiguration
         where T : Student
     {
         modelBuilder.Entity<T>().Property(s => s.EmailAddress).IsRequired(true).HasMaxLength(50);
+
+        modelBuilder.Entity<Student>()
+            .HasOne(x => x.Major)
+            .WithMany(x=>x.Students)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
