@@ -1,7 +1,10 @@
+using edu.aramco.aspnet.api.Models.Requests;
+using edu.aramco.aspnet.api.Validators;
 using edu.aramco.aspnet.domainEntities.Context;
 using edu.aramco.aspnet.services.IServices;
 using edu.aramco.aspnet.services.Services;
 using edu.aramco.aspnet.services.Services.SMSServices;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -37,6 +40,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //builder.Services.AddKeyedScoped<ISMSService, ZainSMSService>("Zain");
 
 builder.Services.AddTransient<ISMSService, ZainSMSService>();
+
+builder.Services.AddScoped<IValidator<CourseRequestModel>, CourseRequestModelValidator>();
 
 var app = builder.Build();
 
