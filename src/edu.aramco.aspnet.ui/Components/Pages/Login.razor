@@ -1,0 +1,95 @@
+﻿@page "/login"
+@using System.ComponentModel.DataAnnotations
+@rendermode InteractiveServer
+
+<h3>Login Screen</h3>
+
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <EditForm Model="@login" OnValidSubmit="HandleValidSubmit" FormName="loginForm">
+             
+                <DataAnnotationsValidator />
+
+                <div class="mb-3 text-start">
+                    <label class="form-label">Email address</label>
+                    <InputText class="form-control" @bind-Value="login.Email" />
+                    <div class="form-text">We'll never share your email with anyone else.</div>
+                    <ValidationMessage For="@(() => login.Email)" class="text-danger" />
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label class="form-label">Password</label>
+                    <InputText type="password" class="form-control" @bind-Value="login.Password" />
+                    <ValidationMessage For="@(() => login.Password)" class="text-danger" />
+                </div>
+
+                <div class="mb-3 form-check text-start">
+                    <InputCheckbox class="form-check-input" @bind-Value="login.RememberMe" />
+                    <label class="form-check-label">Check me out</label>
+                </div>
+
+                @if (isLoading)
+                {
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only"></span>
+                    </div>
+                }
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </EditForm>
+        </div>
+
+    </div>
+    <div class="row">
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <div class="alert alert-info mt-3" role="alert">
+                @message
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private LoginModel login = new();
+    private string? message;
+    private bool isLoading = false;
+    private async void HandleValidSubmit(EditContext context)
+    {
+        isLoading = true;
+        var commingData = context.Model as LoginModel;
+
+        await Task.Delay(2000);
+
+        if (context.Validate())
+        {
+            message = "Validation successful!";
+        }
+
+        if (commingData.Password != "123")
+        {
+            message = "Invalid password. Please try again.";
+            isLoading = false;
+            return;
+        }
+        message = "Login successful!";
+        isLoading = false;
+    }
+
+
+    public class LoginModel
+    {
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Enter a valid email address")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Password is required")]
+        [MinLength(3, ErrorMessage = "Password must be at least 6 characters")]
+        public string Password { get; set; } = string.Empty;
+
+        public bool RememberMe { get; set; }
+    }
+
+}
+
