@@ -6,6 +6,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddHttpClient("internalClient", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7245");
+});
+
+builder.Services.AddHttpClient("googleClient", client =>
+{
+    client.BaseAddress = new Uri("https://www.google.com");
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

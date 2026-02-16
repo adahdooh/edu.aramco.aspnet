@@ -28,9 +28,9 @@ namespace edu.aramco.aspnet.api.Controllers
         [HttpPost("authenticate")]
         [AllowAnonymous]
 
-        public async Task<IActionResult> AuthenticateUser(string userName, string password)
+        public async Task<IActionResult> AuthenticateUser(UserAuthenticationRequest request)
         {
-            if (userName != "aspnet" && password != "123456")
+            if (request.UserName != "aspnet" && request.Password != "123456")
             {
                 return Unauthorized();
             }
