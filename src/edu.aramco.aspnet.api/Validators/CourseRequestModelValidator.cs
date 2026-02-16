@@ -15,6 +15,25 @@ namespace edu.aramco.aspnet.api.Validators
             RuleFor(x => x.InstructorId).NotNull();
             RuleFor(x => x.Name).NotNull().WithMessage("NOT NULL").NotEmpty().WithMessage("NOT EMPTY");
             RuleFor(x => x.Description).NotNull().NotEmpty().MaximumLength(200);
+
+            // RuleFor(x=> x is UpdateCourseRequestModel)
+            // .Must(x => (x as UpdateCourseRequestModel).Id > 0)
+            // .WithMessage("Id should be greater than 0");
+           
+            RuleFor(x => x)
+                .Must(Updatable);
+        }
+
+        private bool Updatable(CourseRequestModel model)
+        {
+            if (model is not UpdateCourseRequestModel) return true;
+
+            var updateModel = model as UpdateCourseRequestModel;
+
+            if (updateModel.Id <= 0)
+                return false;
+
+            return true;
         }
     }
 }
