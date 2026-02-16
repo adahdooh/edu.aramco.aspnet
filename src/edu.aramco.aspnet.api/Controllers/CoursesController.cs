@@ -51,7 +51,7 @@ namespace edu.aramco.aspnet.api.Controllers
             }
 
 
-            var course_tracked = await applicationDbContext.Courses.FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken); var course = await applicationDbContext.Courses.FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
+            var course_tracked = await applicationDbContext.Courses.FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken); 
             var course_not_tracked = await applicationDbContext.Courses.AsNoTracking().FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
 
             var std = await applicationDbContext.Students.FirstAsync(cancellationToken);
