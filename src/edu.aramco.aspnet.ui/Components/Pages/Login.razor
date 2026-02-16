@@ -1,6 +1,7 @@
 ﻿@page "/login"
 @using System.ComponentModel.DataAnnotations
 @rendermode InteractiveServer
+@inject IHttpClientFactory HttpClientFactory
 
 <h3>Login Screen</h3>
 
@@ -13,9 +14,9 @@
 
                 <div class="mb-3 text-start">
                     <label class="form-label">Email address</label>
-                    <InputText class="form-control" @bind-Value="login.Email" />
+                    <InputText class="form-control" @bind-Value="login.UserName" />
                     <div class="form-text">We'll never share your email with anyone else.</div>
-                    <ValidationMessage For="@(() => login.Email)" class="text-danger" />
+                    <ValidationMessage For="@(() => login.UserName)" class="text-danger" />
                 </div>
 
                 <div class="mb-3 text-start">
@@ -39,12 +40,11 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </EditForm>
         </div>
-
     </div>
     <div class="row">
-        @if (!string.IsNullOrEmpty(message))
+        @if (isValidCredentials.HasValue)
         {
-            <div class="alert alert-info mt-3" role="alert">
+            <div class="alert alert-@(isValidCredentials == true ? "primary" : "danger") mt-3" role="alert">
                 @message
             </div>
         }
@@ -55,34 +55,61 @@
     private LoginModel login = new();
     private string? message;
     private bool isLoading = false;
-    private async void HandleValidSubmit(EditContext context)
+    private bool? isValidCredentials;
+
+    private async Task HandleValidSubmit(EditContext context)
     {
         isLoading = true;
         var commingData = context.Model as LoginModel;
 
-        await Task.Delay(2000);
-
-        if (context.Validate())
+        try
         {
-            message = "Validation successful!";
+            await Task.Delay(300);
+            if (context.Validate())
+                message = "Validation successful!";
+
+            var client = HttpClientFactory.CreateClient("internalClient");
+            var response = await client.PostAsJsonAsync("Users/authenticate", commingData);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var token = await response.Content.ReadAsStringAsync();
+
+                isValidCredentials = true;
+                message = "Login successful!";
+            }
+            else
+            {
+                isValidCredentials = false;
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                message = responseContent;
+            }
+
+
+            // if (commingData.Password != "123")
+            // {
+            //     message = "Invalid password. Please try again.";
+            //     isLoading = false;
+            //     isValidCredentials = false;
+            //     return;
+            // }
+            // message = "Login successful!";
+            // isLoading = false;
+            // isValidCredentials = true;
         }
-
-        if (commingData.Password != "123")
+        finally
         {
-            message = "Invalid password. Please try again.";
             isLoading = false;
-            return;
         }
-        message = "Login successful!";
-        isLoading = false;
     }
 
 
     public class LoginModel
     {
         [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Enter a valid email address")]
-        public string Email { get; set; } = string.Empty;
+        // [EmailAddress(ErrorMessage = "Enter a valid email address")]
+        public string UserName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Password is required")]
         [MinLength(3, ErrorMessage = "Password must be at least 6 characters")]
