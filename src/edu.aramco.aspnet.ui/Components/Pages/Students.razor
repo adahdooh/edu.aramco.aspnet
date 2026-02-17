@@ -1,0 +1,30 @@
+﻿@page "/students"
+@using Microsoft.EntityFrameworkCore
+@using edu.aramco.aspnet.domainEntities.Context
+@using edu.aramco.aspnet.domainEntities.Entities
+@inject IDbContextFactory<ApplicationDbContext> DbContextFactory
+
+<h3>All Students</h3>
+
+@if (isLoading)
+{
+    <span>Loading ...</span>
+}
+
+<ol>
+    @foreach (var message in allMessagse)
+    {
+        <li>@($"{message.PhoneNumber} - {message.Body}")</li>
+    }
+</ol>
+
+@code {
+    List<SMS> allMessagse = new ();
+    bool isLoading = true;
+    protected async override Task OnInitializedAsync()
+    {
+        var db = await DbContextFactory.CreateDbContextAsync();
+        allMessagse = await db.SMSs.Select(s => s).ToListAsync();
+        isLoading = false;
+    }
+}

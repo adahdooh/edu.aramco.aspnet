@@ -1,4 +1,6 @@
+using edu.aramco.aspnet.domainEntities.Context;
 using edu.aramco.aspnet.ui.Components;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,10 @@ builder.Services.AddHttpClient("googleClient", client =>
 {
     client.BaseAddress = new Uri("https://www.google.com");
 });
+
+// register dbcontext
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

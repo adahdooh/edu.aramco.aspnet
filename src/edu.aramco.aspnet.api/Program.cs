@@ -1,3 +1,4 @@
+using edu.aramco.aspnet.api.Middlware;
 using edu.aramco.aspnet.api.Models.Requests;
 using edu.aramco.aspnet.api.Validators;
 using edu.aramco.aspnet.domainEntities.Context;
@@ -101,7 +102,30 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddLogging(log =>
+{
+    log.ClearProviders();
+    log.AddConsole();
+#pragma warning disable CA1416 // Validate platform compatibility
+    log.AddEventLog(new Microsoft.Extensions.Logging.EventLog.EventLogSettings
+    {
+        LogName = "Aramco",
+        SourceName = "SMS",
+        Filter = (source, level) => level >= LogLevel.Information
+    });
+#pragma warning restore CA1416 // Validate platform compatibility
+});
+
 var app = builder.Build();
+
+
+app.Use(async (context, next) =>
+{
+    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+    logger.LogInformation("Handling request: {Method} {Path}", context.Request.Method, context.Request.Path);
+    await next.Invoke();
+    logger.LogInformation("Finished handling request.");
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -109,6 +133,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<LoggingRequestMiddleware>();
+app.UseMiddleware<LoggingRequestMiddleware>();
+app.UseMiddleware<LoggingRequestMiddleware>();
+app.UseMiddleware<LoggingRequestMiddleware>();
+app.UseMiddleware<LoggingRequestMiddleware>();
 
 app.UseHttpsRedirection();
 
