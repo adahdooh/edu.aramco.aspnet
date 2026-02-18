@@ -36,6 +36,8 @@ builder.Services.AddScoped(provider =>
     return new GraphServiceClient(authProvider);
 });
 
+builder.Services.AddHostedService<SendEmailForUsersBackgroundService>();
+
 var app = builder.Build();
 
 app.Run();
