@@ -1,6 +1,8 @@
 using edu.aramco.aspnet.domainEntities.Context;
+using edu.aramco.aspnet.jobs;
 using edu.aramco.aspnet.jobs.Jobs;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Graph;
 using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +28,12 @@ builder.Services.AddQuartzHostedService(x =>
 {
     x.AwaitApplicationStarted = true;
     x.WaitForJobsToComplete = true;
+});
+builder.Services.AddScoped<GraphClientCredentialAuthProvider>();
+builder.Services.AddScoped(provider =>
+{
+    var authProvider = provider.GetRequiredService<GraphClientCredentialAuthProvider>();
+    return new GraphServiceClient(authProvider);
 });
 
 var app = builder.Build();
