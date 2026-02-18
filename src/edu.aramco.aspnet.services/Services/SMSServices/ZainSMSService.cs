@@ -30,5 +30,10 @@ namespace edu.aramco.aspnet.services.Services
                 cancellationToken
             );
         }
+
+        public Task<List<SMS>> Get()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,6 @@
 using edu.aramco.aspnet.domainEntities.Context;
+using edu.aramco.aspnet.services.IServices;
+using edu.aramco.aspnet.services.Services.SMSServices;
 using edu.aramco.aspnet.ui.Components;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +23,8 @@ builder.Services.AddHttpClient("googleClient", client =>
 // register dbcontext
 builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<ISMSService, MobilySMSService>();
 
 var app = builder.Build();
 

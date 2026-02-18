@@ -1,4 +1,5 @@
-﻿using System;
+﻿using edu.aramco.aspnet.domainEntities.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,6 +8,8 @@ namespace edu.aramco.aspnet.services.IServices
     public interface ISMSService
     {
         public string Key { get; }
+
+        Task<List<SMS>> Get();
 
         /// <summary>
         /// Service to send SMS.
