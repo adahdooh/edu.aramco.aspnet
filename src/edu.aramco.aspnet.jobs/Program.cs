@@ -1,0 +1,33 @@
+using edu.aramco.aspnet.domainEntities.Context;
+using edu.aramco.aspnet.jobs.Jobs;
+using Microsoft.EntityFrameworkCore;
+using Quartz;
+
+var builder = WebApplication.CreateBuilder(args);
+
+var connectionString =
+    builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string" + "'DefaultConnection' not found.");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString)
+);
+
+builder.Services.AddQuartz(s =>
+{
+    s.AddJob<SendEmailForUsersJob>(sendEmailForUsersJob => sendEmailForUsersJob.WithIdentity("SendEmailForUsersJob"))
+     .AddTrigger(opts => opts
+        .ForJob("SendEmailForUsersJob")
+        .WithIdentity("SendEmailForUsersJob-trigger")
+        .WithSimpleSchedule(x => x.WithIntervalInSeconds(10).RepeatForever()));
+});
+
+builder.Services.AddQuartzHostedService(x =>
+{
+    x.AwaitApplicationStarted = true;
+    x.WaitForJobsToComplete = true;
+});
+
+var app = builder.Build();
+
+app.Run();
