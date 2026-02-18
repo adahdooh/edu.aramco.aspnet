@@ -1,5 +1,8 @@
 ﻿using edu.aramco.aspnet.domainEntities.Context;
 using edu.aramco.aspnet.domainEntities.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Graph;
+using Microsoft.Graph.Models;
 using Quartz;
 using Quartz.Logging;
 
@@ -7,13 +10,9 @@ namespace edu.aramco.aspnet.jobs.Jobs;
 
 [DisallowConcurrentExecution]
 public class SendEmailForUsersJob(ApplicationDbContext applicationDbContext,
+    GraphServiceClient graphServiceClient,
     ILogger<SendEmailForUsersJob> logger) : IJob
 {
-    List<string> mesasges = new List<string>
-    {
-        "Message 1", "Message 2", "Message 3", "Message 4", "Message 5"
-    };
-
     public async Task Execute(IJobExecutionContext context)
     {
         var exceptions = new List<Exception>();
@@ -22,19 +21,22 @@ public class SendEmailForUsersJob(ApplicationDbContext applicationDbContext,
         var stopWatch = System.Diagnostics.Stopwatch.StartNew();
         logger.LogInformation($"{GetType().Name} has been triggered at {stopWatch}");
 
-        foreach (var message in mesasges)
+        var messages = await applicationDbContext.SMSs.Where(s => !s.IsProcessed)
+            .ToListAsync(cancellationToken);
+
+        foreach (var message in messages)
         {
             try
             {
                 await ProcessRecord(message, cancellationToken);
+                message.IsProcessed = true;
+                await applicationDbContext.SaveChangesAsync(cancellationToken);
             }
             catch (Exception ex)
             {
                 exceptions.Add(ex);
             }
         }
-
-        await applicationDbContext.SaveChangesAsync(cancellationToken);
 
         if (exceptions.Any())
         {
@@ -44,12 +46,34 @@ public class SendEmailForUsersJob(ApplicationDbContext applicationDbContext,
         logger.LogInformation($"{GetType().Name} has been executed at {stopWatch.Elapsed.TotalSeconds}");
     }
 
-    private async Task ProcessRecord(string message, CancellationToken cancellationToken)
+    private async Task ProcessRecord(SMS sms, CancellationToken cancellationToken)
     {
-        await applicationDbContext.SMSs.AddAsync(new SMS
+        // Send email logic here
+        var requestBody = new Microsoft.Graph.Users.Item.SendMail.SendMailPostRequestBody
         {
-            Body = message,
-            PhoneNumber = "+1234567890"
-        }, cancellationToken);
+            Message = new Message
+            {
+                Subject = "Message From Aramco",
+                Body = new ItemBody
+                {
+                    ContentType = BodyType.Text,
+                    Content = sms.PhoneNumber,
+                },
+                ToRecipients = [
+                    new Recipient
+                    {
+                        EmailAddress = new EmailAddress
+                        {
+                            Address = sms.Body
+                        }
+                    }],
+            },
+            SaveToSentItems = false
+        };
+        await graphServiceClient
+            .Users["akmal.eldahdouh@salic.com"]
+            .SendMail
+            .PostAsync(requestBody);
+
     }
 }

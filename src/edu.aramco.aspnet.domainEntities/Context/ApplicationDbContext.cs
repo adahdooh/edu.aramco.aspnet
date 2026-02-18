@@ -28,11 +28,11 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyEnrollmentConfiguration<Enrollment>();
         modelBuilder.ApplyMajorConfiguration<Major>();
 
-        modelBuilder.Entity<SMS>()
-            .HasData(
-                new SMS { Id = 1, PhoneNumber = "SMS 1", Body = "Body" },
-                new SMS { Id = 3, PhoneNumber = "SMS 3", Body = "Body" }
-            );
+        //modelBuilder.Entity<SMS>()
+        //    .HasData(
+        //        new SMS { Id = 1, PhoneNumber = "SMS 1", Body = "Body" },
+        //        new SMS { Id = 3, PhoneNumber = "SMS 3", Body = "Body" }
+        //    );
 
         base.OnModelCreating(modelBuilder);
     }
