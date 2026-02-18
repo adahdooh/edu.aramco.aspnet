@@ -19,6 +19,11 @@ namespace edu.aramco.aspnet.services.Services
 
         public string Key => "STC";
 
+        public Task<List<SMS>> Get()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task Send(
             string telephoneNumber,
             string body,

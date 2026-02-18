@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using edu.aramco.aspnet.domainEntities.Context;
 
@@ -11,9 +12,11 @@ using edu.aramco.aspnet.domainEntities.Context;
 namespace edu.aramco.aspnet.domainEntities.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260217114242_seeding_sms")]
+    partial class seeding_sms
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,6 +131,12 @@ namespace edu.aramco.aspnet.domainEntities.Migrations
                             Id = 1,
                             Body = "Body",
                             PhoneNumber = "SMS 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Body = "Body",
+                            PhoneNumber = "SMS 2"
                         },
                         new
                         {
