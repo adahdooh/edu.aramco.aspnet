@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8A268C2A-3FD7-4A5F-9295-C10AC2E3F9F6}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		TextFile1.txt = TextFile1.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "edu.aramco.aspnet.jobs", "edu.aramco.aspnet.jobs\edu.aramco.aspnet.jobs.csproj", "{7D355EDA-1654-4C99-8CF6-EBCE139A8FB0}"
