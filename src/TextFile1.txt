@@ -1,1 +1,5 @@
 https://salic.sharepoint.com/:u:/s/newsalic/IQDn9QfTllOPS4xqBuyY7dhAAUG9FSEx5xrrAoJWda1FDdY?e=MYOgpC
+
+
+dotnet ef dbcontext scaffold "Server=IT-ELDAHDOUHA\SQLEXPRESS;Database=zkt;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models -c AppDbContext --use-database-names --no-onconfiguring --force --project edu.aramco.aspnet.domainEntities
+
