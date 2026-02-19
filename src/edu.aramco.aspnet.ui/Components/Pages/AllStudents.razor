@@ -1,9 +1,20 @@
 ﻿@page "/students/getall"
+@rendermode InteractiveServer
 @using edu.aramco.aspnet.domainEntities.Entities
 
 <h3>All Students</h3>
 
-<div style="display:flex;">
+<br />
+
+<select @bind="@SelectedGender">
+    <option value="All">All</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+</select>
+<span>@SelectedGender (@filteredStudens.Count) students</span>
+<br />
+
+@* <div style="display:flex;">
     @foreach (var student in students)
     {
         <StudentCard Id="@student.Id"
@@ -13,16 +24,19 @@
                      Gender="@student.Gender"
                      GraduationDate="student.GraduationDate" />
     }
-</div>
-<br/> <br/>
+</div> *@
+<br />
+<br />
 <div style="display:flex;">
-    @foreach (var student in students)
+    @foreach (var student in filteredStudens)
     {
-        <StudentCardWithObject Data="@student"/>
+        <StudentCardWithObject Data="@student" />
     }
 </div>
 
 @code {
+    private string SelectedGender = "All";
+
     private List<Student> students = new List<Student>
     {
         new Student { Id = Guid.NewGuid(),
@@ -45,8 +59,15 @@
             LastName = "Bob",
             FirstName = "Alice",
             Address = "123 Main St",
-            Gender = 'M',
+            Gender = 'F',
             Password = "password123",
             GraduationDate = DateTime.Now },
+    };
+
+    private List<Student> filteredStudens => SelectedGender switch
+    {
+        "Male" => students.Where(s => s.Gender == 'M').ToList(),
+        "Female" => students.Where(s => s.Gender == 'F').ToList(),
+        _ => students
     };
 }
