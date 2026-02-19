@@ -1,0 +1,31 @@
+﻿<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+    <div class="card-header">@FirstName @LastName</div>
+    <div class="card-body">
+        <h5 class="card-title">@Address</h5>
+        <p class="card-text">Gender @Gender, Graduated at @GraduationDate</p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    [Parameter]
+    public string LastName { get; set; }
+    
+    [Parameter]
+    public string FirstName { get; set; }
+
+    [Parameter]  
+    public string Address { get; set; }
+    
+    [Parameter] 
+    public char Gender { get; set; }
+    
+    [Parameter] 
+    public string Password { get; set; }
+    
+    [Parameter]
+    public DateTime GraduationDate { get; set; }
+}
+

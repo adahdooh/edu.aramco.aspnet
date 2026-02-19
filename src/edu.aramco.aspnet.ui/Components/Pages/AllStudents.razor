@@ -1,0 +1,52 @@
+﻿@page "/students/getall"
+@using edu.aramco.aspnet.domainEntities.Entities
+
+<h3>All Students</h3>
+
+<div style="display:flex;">
+    @foreach (var student in students)
+    {
+        <StudentCard Id="@student.Id"
+                     LastName="@student.LastName"
+                     FirstName="@student.FirstName"
+                     Address="@student.Address"
+                     Gender="@student.Gender"
+                     GraduationDate="student.GraduationDate" />
+    }
+</div>
+<br/> <br/>
+<div style="display:flex;">
+    @foreach (var student in students)
+    {
+        <StudentCardWithObject Data="@student"/>
+    }
+</div>
+
+@code {
+    private List<Student> students = new List<Student>
+    {
+        new Student { Id = Guid.NewGuid(),
+            LastName = "Bob",
+            FirstName = "Alice",
+            Address = "123 Main St",
+            Gender = 'M',
+            Password = "password123",
+            GraduationDate = DateTime.Now },
+
+            new Student { Id = Guid.NewGuid(),
+            LastName = "Bob",
+            FirstName = "Alice",
+            Address = "123 Main St",
+            Gender = 'M',
+            Password = "password123",
+            GraduationDate = DateTime.Now },
+
+            new Student { Id = Guid.NewGuid(),
+            LastName = "Bob",
+            FirstName = "Alice",
+            Address = "123 Main St",
+            Gender = 'M',
+            Password = "password123",
+            GraduationDate = DateTime.Now },
+    };
+}
