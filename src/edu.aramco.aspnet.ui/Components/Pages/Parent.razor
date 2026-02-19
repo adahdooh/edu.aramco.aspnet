@@ -1,0 +1,30 @@
+﻿@page "/parent"
+@rendermode InteractiveServer
+
+<h1>Hello</h1>
+
+<ol>
+    <li>Create parent component</li>
+    <li>Create child component</li>
+    <li>Define property inside the child component</li>
+    <li>Decorate the property with [Parameter] attribute</li>
+    <li>Set the value for the property from parent level as 'Child Property="" />' </li>
+</ol>
+
+<button @onclick="IncrementCount">Increment Counter</button>
+
+<Child Counter="@counter"/>
+
+<Child Counter="@counter" />
+
+<Child Counter="@counter" />
+
+<Child Counter="@counter" />
+
+@code {
+    int counter = 0;
+    void IncrementCount()
+    {
+        counter++;
+    }
+}

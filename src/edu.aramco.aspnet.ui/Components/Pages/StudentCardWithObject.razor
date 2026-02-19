@@ -1,0 +1,13 @@
+﻿@using edu.aramco.aspnet.domainEntities.Entities
+<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+    <div class="card-header">@Data.FirstName @Data.LastName</div>
+    <div class="card-body">
+        <h5 class="card-title">@Data.Address</h5>
+        <p class="card-text">Gender @Data.Gender, Graduated at @Data.GraduationDate</p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Student Data { get; set; }
+}
