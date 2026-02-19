@@ -2,6 +2,7 @@ using edu.aramco.aspnet.api.Middlware;
 using edu.aramco.aspnet.api.Models.Requests;
 using edu.aramco.aspnet.api.Validators;
 using edu.aramco.aspnet.domainEntities.Context;
+using edu.aramco.aspnet.scaffold.Models;
 using edu.aramco.aspnet.services.IServices;
 using edu.aramco.aspnet.services.Services;
 using FluentValidation;
@@ -26,8 +27,14 @@ var connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string" + "'DefaultConnection' not found.");
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString)
+builder.Services.AddDbContext<ApplicationDbContext>();
+
+var zktConnectionString =
+    builder.Configuration.GetConnectionString("ZKTConnection")
+    ?? throw new InvalidOperationException("Connection string" + "'ZKTConnection' not found.");
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(zktConnectionString)
 );
 
 // for both 1 and 2 ways of accessing the services, we need to register all the implementations of ISMSService
@@ -118,6 +125,14 @@ builder.Services.AddLogging(log =>
 
 var app = builder.Build();
 
+//using (var scope = app.Services.CreateScope())
+//{
+//    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+//    var db1 = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+//    db.Database.Migrate();
+//    db1.Database.Migrate();
+//}
 
 app.Use(async (context, next) =>
 {

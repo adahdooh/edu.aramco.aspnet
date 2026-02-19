@@ -78,6 +78,6 @@ public class SendEmailForUsersBackgroundService(ApplicationDbContext application
             }
         }
 
-        logger.LogInformation($"{GetType().Name} has been executed at {stopWatch.Elapsed.TotalSeconds}");
+        //logger.LogInformation($"{GetType().Name} has been executed at {stopWatch.Elapsed.TotalSeconds}");
     }
 }
